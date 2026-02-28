@@ -4,6 +4,7 @@ from transaction.transaction_category import TransactionCategory
 from balance.balance import Balance
 from balance.balance_observer import LowBalanceAlertObserver
 
+
 class TestLowBalanceAlertObserver(unittest.TestCase):
 
     def setUp(self):
