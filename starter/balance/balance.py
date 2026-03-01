@@ -6,10 +6,18 @@ class Balance:
     """Singleton to track the balance."""
 
     _instance = None
-
+    
+    @staticmethod
+    def get_instance():
+        return Balance()
+    
+    def __new__(cls):
+        if cls._instance is None:
+            cls._instance = super().__new__(cls)
+        return cls._instance
+    
     def __init__(self):
-        """Initialize the balance. Prevent direct instantiation."""
-        pass
+        self._balance = 0
 
     def reset(self):
         """Reset the net balance to zero."""
@@ -34,7 +42,7 @@ class Balance:
 
     def get_balance(self):
         """Get the current net balance."""
-        pass
+        return self._balance
 
     def summary(self):
         """Return a summary string of the net balance."""
