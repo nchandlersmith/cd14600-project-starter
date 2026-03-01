@@ -17,8 +17,10 @@ class TestTransaction(unittest.TestCase):
         t1 = Transaction(20, TransactionCategory.EXPENSE)
         t2 = Transaction(20, TransactionCategory.EXPENSE)
         t3 = Transaction(30, TransactionCategory.EXPENSE)
+        t4 = Transaction(30, TransactionCategory.INCOME)
         self.assertEqual(t1, t2)
         self.assertNotEqual(t1, t3)
+        self.assertNotEqual(t3, t4)
 
 if __name__ == "__main__":
     unittest.main()
