@@ -25,11 +25,11 @@ class Balance:
 
     def add_income(self, amount):
         """Add income to the balance."""
-        pass
+        self._balance += amount
 
     def add_expense(self, amount):
         """Subtract expense from the balance."""
-        pass
+        self._balance -= amount
 
     def apply_transaction(self, transaction):
         """
