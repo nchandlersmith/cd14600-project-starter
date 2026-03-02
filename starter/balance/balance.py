@@ -2,26 +2,28 @@
 
 from transaction.transaction_category import TransactionCategory
 
+
 class Balance:
     """Singleton to track the balance."""
 
     _instance = None
-    
+
     @staticmethod
     def get_instance():
         return Balance()
-    
+
     def __new__(cls):
         if cls._instance is None:
             cls._instance = super().__new__(cls)
         return cls._instance
-    
+
     def __init__(self):
         self._balance = 0
 
     def reset(self):
         """Reset the net balance to zero."""
-        pass
+        self._balance = 0
+        return self._balance
 
     def add_income(self, amount):
         """Add income to the balance."""
@@ -38,7 +40,15 @@ class Balance:
         Args:
             transaction (Transaction): The transaction to apply.
         """
-        pass
+        if transaction.category == TransactionCategory.INCOME:
+            self._balance += transaction.amount
+        elif transaction.category == TransactionCategory.EXPENSE:
+            self._balance -= transaction.amount
+        else:
+            valid_categories = ", ".join([
+                category.value for category in TransactionCategory])
+            raise ValueError(
+                f"Encountered invalid transaction category. Valid categories are: {valid_categories}.")
 
     def get_balance(self):
         """Get the current net balance."""
@@ -47,4 +57,7 @@ class Balance:
     def summary(self):
         """Return a summary string of the net balance."""
         pass
-    
+
+
+if "__main__" == __name__:
+    print(TransactionCategory)
