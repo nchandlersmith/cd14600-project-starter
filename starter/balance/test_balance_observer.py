@@ -1,7 +1,7 @@
 import unittest
 from transaction.transaction import Transaction
 from transaction.transaction_category import TransactionCategory
-from balance.balance import Balance
+from balance.balance import Balance, BalanceNotification
 from balance.balance_observer import LowBalanceAlertObserver
 
 
@@ -34,6 +34,18 @@ class TestLowBalanceAlertObserver(unittest.TestCase):
         self.balance.apply_transaction(
             Transaction(60, TransactionCategory.EXPENSE))
         self.assertTrue(observer.alert_triggered)
+
+    def test_balance_notification_initilizes_with_0_subscriptions(self):
+
+        notifier = BalanceNotification()
+        self.assertEqual(len(notifier._subscribers), 0)
+
+    def test_balance_notification_adds_a_subscriber(self):
+        notifier = BalanceNotification()
+        subscriber = LowBalanceAlertObserver(threshold=9001)
+        notifier.register(subscriber)
+        self.assertEqual(len(notifier._subscribers), 1)
+        self.assertIs(notifier._subscribers[0], subscriber)
 
 
 if __name__ == "__main__":

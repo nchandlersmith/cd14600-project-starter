@@ -1,6 +1,7 @@
 # balance.py
 
 from transaction.transaction_category import TransactionCategory
+from balance.balance_observer import IBalanceObserver
 
 
 class Balance:
@@ -59,5 +60,11 @@ class Balance:
         pass
 
 
-if "__main__" == __name__:
-    print(TransactionCategory)
+class BalanceNotification:
+    """Handles the notifications to balance observers."""
+    
+    def __init__(self):
+        self._subscribers = []
+    
+    def register(self, subscriber: IBalanceObserver):
+        self._subscribers.append(subscriber)
