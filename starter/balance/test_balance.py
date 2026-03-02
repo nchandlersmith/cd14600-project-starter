@@ -40,8 +40,10 @@ class TestBalance(unittest.TestCase):
         class FakeCategory:
             pass
         t = Transaction(100, FakeCategory())
-        with self.assertRaises(ValueError):
+        with self.assertRaises(ValueError) as context:
             self.balance.apply_transaction(t)
+        self.assertEqual(str(context.exception),
+                         "Encountered invalid transaction category. Valid categories are: Income, Expense.")
 
     def test_reset(self):
         self.balance.add_income(100)
