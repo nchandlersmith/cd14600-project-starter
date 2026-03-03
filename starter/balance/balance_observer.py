@@ -7,9 +7,19 @@ class IBalanceObserver:
 
 
 class PrintObserver(IBalanceObserver):
+    def __init__(self):
+        super().__init__()
+        self._latest_message = ""
+
+    @property
+    def latest_message(self):
+        return self._latest_message
+
     def update(self, balance, transaction):
         """Print balance update message."""
-        pass
+        message = f"Transaction posted: ${transaction.amount} {transaction.category.value.upper()}. New balance: ${balance}."
+        self._latest_message = message
+        print(message)
 
 
 class LowBalanceAlertObserver(IBalanceObserver):

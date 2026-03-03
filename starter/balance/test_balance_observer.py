@@ -2,7 +2,7 @@ import unittest
 from transaction.transaction import Transaction
 from transaction.transaction_category import TransactionCategory
 from balance.balance import Balance, BalanceNotification
-from balance.balance_observer import LowBalanceAlertObserver
+from balance.balance_observer import LowBalanceAlertObserver, PrintObserver
 
 
 class TestLowBalanceAlertObserver(unittest.TestCase):
@@ -34,6 +34,21 @@ class TestLowBalanceAlertObserver(unittest.TestCase):
         self.balance.apply_transaction(
             Transaction(60, TransactionCategory.EXPENSE))
         self.assertTrue(observer.alert_triggered)
+
+
+class TestPrintObserver(unittest.TestCase):
+
+    def setUp(self):
+        self.balance = Balance.get_instance()
+        self.balance.reset()
+        
+    def test_update_prints_an_update_message(self):
+        observer = PrintObserver()
+        self.balance.register_observer(observer)
+        
+        self.balance.apply_transaction(Transaction(1450, TransactionCategory.INCOME))
+        
+        self.assertEqual(observer.latest_message, "Transaction posted: $1450 INCOME. New balance: $1450.")
 
 
 class TestBalanceNotification(unittest.TestCase):
