@@ -39,7 +39,7 @@ class TestLowBalanceAlertObserver(unittest.TestCase):
         notifier1 = BalanceNotification()
         notifier2 = BalanceNotification()
         self.assertIs(notifier1, notifier2)
-    
+
     def test_balance_notification_initializes_with_0_subscriptions(self):
         notifier = BalanceNotification()
         self.assertEqual(len(notifier._subscribers), 0)
@@ -67,6 +67,15 @@ class TestLowBalanceAlertObserver(unittest.TestCase):
         notifier.unregister(subscriber1)
         self.assertEqual(len(notifier._subscribers), 1)
         self.assertEqual(notifier._subscribers[0], subscriber2)
+
+    def test_balance_notification_notifies_subscriber(self):
+        notifier = BalanceNotification()
+        observer = LowBalanceAlertObserver(threshold=5)
+        notifier.register(observer)
+
+        notifier.notify(4, Transaction(1, TransactionCategory.EXPENSE))
+
+        self.assertTrue(observer.alert_triggered)
 
 
 if __name__ == "__main__":

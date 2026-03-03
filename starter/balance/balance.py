@@ -19,6 +19,7 @@ class Balance:
         return cls._instance
 
     def __init__(self):
+        self._notifier = BalanceNotification()
         self._balance = 0
 
     def reset(self):
@@ -43,8 +44,10 @@ class Balance:
         """
         if transaction.category == TransactionCategory.INCOME:
             self._balance += transaction.amount
+            self._notifier.notify(self._balance, transaction)
         elif transaction.category == TransactionCategory.EXPENSE:
             self._balance -= transaction.amount
+            self._notifier.notify(self._balance, transaction)
         else:
             valid_categories = ", ".join([
                 category.value for category in TransactionCategory])
@@ -58,6 +61,9 @@ class Balance:
     def summary(self):
         """Return a summary string of the net balance."""
         pass
+    
+    def register_observer(self, observer: IBalanceObserver):
+        self._notifier.register(observer)
 
 
 class BalanceNotification:
@@ -78,3 +84,7 @@ class BalanceNotification:
 
     def unregister(self, subscriber: IBalanceObserver):
         self._subscribers.remove(subscriber)
+        
+    def notify(self, balance, transaction):
+        for subscriber in self._subscribers:
+            subscriber.update(balance, transaction)

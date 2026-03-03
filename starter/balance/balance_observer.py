@@ -15,7 +15,8 @@ class PrintObserver(IBalanceObserver):
 class LowBalanceAlertObserver(IBalanceObserver):
     def __init__(self, threshold):
         self.threshold = threshold
+        self.alert_triggered = False
 
     def update(self, balance, transaction):
         """Alert if balance drops below threshold."""
-        pass
+        self.alert_triggered = balance < self.threshold
