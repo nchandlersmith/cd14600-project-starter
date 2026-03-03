@@ -62,9 +62,12 @@ class Balance:
 
 class BalanceNotification:
     """Handles the notifications to balance observers."""
-    
+
     def __init__(self):
         self._subscribers = []
-    
+
     def register(self, subscriber: IBalanceObserver):
         self._subscribers.append(subscriber)
+
+    def unregister(self, subscriber: IBalanceObserver):
+        self._subscribers.remove(subscriber)

@@ -47,6 +47,34 @@ class TestLowBalanceAlertObserver(unittest.TestCase):
         self.assertEqual(len(notifier._subscribers), 1)
         self.assertIs(notifier._subscribers[0], subscriber)
 
+    def test_balance_notification_removes_a_subscriber(self):
+        notifier = BalanceNotification()
+        subscriber = LowBalanceAlertObserver(threshold=3)
+        notifier.register(subscriber)
+        notifier.unregister(subscriber)
+        self.assertEqual(len(notifier._subscribers), 0)
+
+    def test_balance_notification_removes_the_correct_subscriber(self):
+        notifier = BalanceNotification()
+        subscriber1 = LowBalanceAlertObserver(threshold=3)
+        subscriber2 = LowBalanceAlertObserver(threshold=10)
+        notifier.register(subscriber1)
+        notifier.register(subscriber2)
+        notifier.unregister(subscriber1)
+        self.assertEqual(len(notifier._subscribers), 1)
+        self.assertEqual(notifier._subscribers[0], subscriber2)
+
+    def test_balance_notification_remove_handles_subscription_not_present(self):
+        notifier = BalanceNotification()
+        subscriber1 = LowBalanceAlertObserver(threshold=3)
+        notifier.register(subscriber1)
+        with self.assertRaises(ValueError) as context:
+            notifier.unregister(LowBalanceAlertObserver(threshold=5))
+        self.assertEqual(str(context.exception),
+                         "Cannot unregister subscriber that does not exist.")
+        self.assertEqual(len(notifier._subscribers), 1)
+        self.assertEqual(notifier._subscribers[0], subscriber1)
+
 
 if __name__ == "__main__":
     unittest.main()
