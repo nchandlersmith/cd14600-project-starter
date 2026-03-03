@@ -35,6 +35,9 @@ class TestLowBalanceAlertObserver(unittest.TestCase):
             Transaction(60, TransactionCategory.EXPENSE))
         self.assertTrue(observer.alert_triggered)
 
+
+class TestBalanceNotification(unittest.TestCase):
+
     def test_balance_notification_is_a_singleton(self):
         notifier1 = BalanceNotification()
         notifier2 = BalanceNotification()
