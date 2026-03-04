@@ -14,6 +14,8 @@ The singleton was chosen to centralize the tracking of the balance. If the appli
 
 The observer pattern was used by the Balance class to perform various actions in other classes, such as alerting and printing updates. The advantage of the pattern is that the behaviors to be performed when the balance is updated are implemented outside of the balance code. This adheres to open/closed principle at the expense of having to manage more classes. But again results in a solution that is more cohesive and separates concerns better than one giant class. One thing that I did do in order to separate the notification logic from the balance logic was to create a BalanceNotifier singleton used inside the balance class in order to handle the notification logic. In this way, the notification logic is implemented separately, though tightly coupled to, the balance logic.
 
-### Decorator Pattern
+### Command Pattern
 
-For the fourth pattern I am using the decorator pattern in order to add additional information about the account the balance is tracking. In this pattern, I can add additional functionality without modifying the balance class itself which is already doing a bunch of heavy lifting tracking the balance updates. This favors composition over inheritance. The down side is more classes to manage and potentially debug. Part of my motivation for doing this was that this was the hardest design pattern for me to visualize and implement, so I want to work on it.
+The command pattern will provide undo/redo functionality at the expense of managing more classes. This is the smart move. Balance already does quite a bit. Splitting out that functionality is a smart step in building a more cohesive balance class. This will enable other things such as logging or validation without those extensions having to re-implement the balance class in full as a decorator pattern would.
+
+I initially conceived of doing the decorator pattern here. But, there is much more to do in order to go after logging and validation. With the command pattern, those things can be added after the command pattern and make a lighter lift when implementing them. 
