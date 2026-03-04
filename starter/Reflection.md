@@ -12,6 +12,8 @@ The singleton was chosen to centralize the tracking of the balance. If the appli
 
 ### Observer Pattern
 
+The observer pattern was used by the Balance class to perform various actions in other classes, such as alerting and printing updates. The advantage of the pattern is that the behaviors to be performed when the balance is updated are implemented outside of the balance code. This adheres to open/closed principle at the expense of having to manage more classes. But again results in a solution that is more cohesive and separates concerns better than one giant class. One thing that I did do in order to separate the notification logic from the balance logic was to create a BalanceNotifier singleton used inside the balance class in order to handle the notification logic. In this way, the notification logic is implemented separately, though tightly coupled to, the balance logic.
 
 ### Decorator Pattern
-(Going to do this for the adding information about the account using the balance)
+
+For the fourth pattern I am using the decorator pattern in order to add additional information about the account the balance is tracking. In this pattern, I can add additional functionality without modifying the balance class itself which is already doing a bunch of heavy lifting tracking the balance updates. This favors composition over inheritance. The down side is more classes to manage and potentially debug. Part of my motivation for doing this was that this was the hardest design pattern for me to visualize and implement, so I want to work on it.
