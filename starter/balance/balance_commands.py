@@ -35,9 +35,11 @@ class AddIncome(BalanceCommand):
 class AddExpense(BalanceCommand):
     def __init__(self, balance):
         super().__init__(balance)
+        self._previous_amount = []
         
     def execute(self, amount):
+        self._previous_amount.append(amount)
         self._balance.add_expense(amount)
     
     def undo(self):
-        return super().undo()
+        self._balance.add_income(self._previous_amount.pop())
