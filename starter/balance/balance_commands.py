@@ -12,7 +12,7 @@ class BalanceCommand(ABC):
         self._previous_balance = 0
 
     @abstractmethod
-    def execute(self):
+    def execute(self, value=None):
         pass
 
     @abstractmethod
@@ -30,3 +30,14 @@ class ResetBalance(BalanceCommand):
 
     def undo(self):
         self._balance.add_income(self._previous_balance)
+        
+        
+class AddIncome(BalanceCommand):
+    def __init__(self, balance):
+        super().__init__(balance)
+        
+    def execute(self, value):
+        self._balance.add_income(value)
+    
+    def undo(self):
+        return super().undo()
