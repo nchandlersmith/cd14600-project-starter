@@ -21,3 +21,11 @@ class TestBalanceCommand(unittest.TestCase):
         
         self.assertEqual(self.balance._balance, 0)
         
+    def test_undo_command_applies_previous_balance(self):
+        self.balance.add_income(500)
+        reset = ResetBalance(self.balance)
+        reset.execute()
+        reset.undo()
+        
+        self.assertEqual(self.balance._balance, 500)
+        
