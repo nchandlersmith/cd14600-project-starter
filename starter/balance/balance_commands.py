@@ -9,35 +9,24 @@ class BalanceCommand(ABC):
 
     def __init__(self, balance):
         self._balance = balance
-        self._previous_balance = 0
 
     @abstractmethod
-    def execute(self, value=None):
-        pass
-
-    @abstractmethod
-    def undo(self):
-        pass
-
-
-class ResetBalance(BalanceCommand):
-    def __init__(self, balance):
-        super().__init__(balance)
-
     def execute(self):
-        self._previous_balance = self._balance._balance
-        self._balance.reset()
+        pass
 
+    @abstractmethod
     def undo(self):
-        self._balance.add_income(self._previous_balance)
+        pass
         
         
 class AddIncome(BalanceCommand):
     def __init__(self, balance):
         super().__init__(balance)
+        self._previous_amount = [0]
         
-    def execute(self, value):
-        self._balance.add_income(value)
+    def execute(self, amount):
+        self._previous_amount.append(amount)
+        self._balance.add_income(amount)
     
     def undo(self):
-        return super().undo()
+        self._balance.add_expense(self._previous_amount.pop())
