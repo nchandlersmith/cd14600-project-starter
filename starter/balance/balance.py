@@ -19,7 +19,7 @@ class Balance:
         return cls._instance
 
     def __init__(self):
-        self._notifier = BalanceNotification()
+        self._notifier = BalanceNotification() # Not a can of this tight coupling. On the other hand, this is ready for dependency injection as a next step.
         self._balance = 0
 
     def reset(self):
