@@ -30,3 +30,14 @@ class AddIncome(BalanceCommand):
     
     def undo(self):
         self._balance.add_expense(self._previous_amount.pop())
+        
+        
+class AddExpense(BalanceCommand):
+    def __init__(self, balance):
+        super().__init__(balance)
+        
+    def execute(self, amount):
+        self._balance.add_expense(amount)
+    
+    def undo(self):
+        return super().undo()
