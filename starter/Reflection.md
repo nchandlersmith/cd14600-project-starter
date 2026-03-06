@@ -16,6 +16,10 @@ The observer pattern was used by the Balance class to perform various actions in
 
 ### Command Pattern
 
-The command pattern will provide undo/redo functionality at the expense of managing more classes. This is the smart move. Balance already does quite a bit. Splitting out that functionality is a smart step in building a more cohesive balance class. This will enable other things such as logging or validation without those extensions having to re-implement the balance class in full as a decorator pattern would.
+The command pattern will provide undo functionality at the expense of managing more classes. This is the smart move. Balance already does quite a bit. Splitting out that functionality is a smart step in building a more cohesive balance class. This will enable other things such as logging or validation without the (relative) complexity of the Decorator pattern. Then again, this solution also has its own complexity. Complexity tradeoffs at some point are personal or team decisions. What complexity are people/the team comfortable with.
 
 I initially conceived of doing the decorator pattern here. But, there is much more to do in order to go after logging and validation. With the command pattern, those things can be added after the command pattern and make a lighter lift when implementing them. 
+
+
+### Other reflections
+I'll say right here, this isn't production ready code. There is a bunch of stuff that I would do in a weakly typed language like Python that I don't do here because this is a course and also for the last couple years I have been working more and more with strongly typed languages, like Kotlin, that it's a jarring transition to go back to Python. I also assume that that level of rigor is not needed nor evaluated here. Happy to revisit if I am wrong.
