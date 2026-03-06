@@ -63,15 +63,24 @@ class TestBalanceCommand(unittest.TestCase):
 
     def test_apply_transaction_execute_applies_income_transaction(self):
         apply = ApplyTransaction(self.balance)
-        
+
         apply.execute(Transaction(2500.67, TransactionCategory.INCOME))
-        
+
         self.assertEqual(self.balance._balance, 2500.67)
 
     def test_apply_transaction_undo_undoes_income_transaction(self):
         apply = ApplyTransaction(self.balance)
         apply.execute(Transaction(2500.67, TransactionCategory.INCOME))
-        
+
         apply.undo()
-        
+
         self.assertEqual(self.balance._balance, 0)
+
+    def test_apply_transaction_undo_undoes_last_income_transaction(self):
+        apply = ApplyTransaction(self.balance)
+        apply.execute(Transaction(2000, TransactionCategory.INCOME))
+        apply.execute(Transaction(500, TransactionCategory.EXPENSE))
+
+        apply.undo()
+
+        self.assertEqual(self.balance._balance, 2000)

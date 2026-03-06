@@ -1,6 +1,6 @@
 """Command package for balance operations"""
 
-from transaction.transaction import Transaction
+from transaction.transaction import Transaction, TransactionCategory
 
 from abc import ABC, abstractmethod
 
@@ -49,9 +49,16 @@ class ApplyTransaction(BalanceCommand):
     def __init__(self, balance):
         super().__init__()
         self._balance = balance
+        self._previous_transactions = []
 
     def execute(self, transaction: Transaction):
+        self._previous_transactions.append(transaction)
         self._balance.apply_transaction(transaction)
 
     def undo(self):
-        self._balance._balance = 0
+        previous = self._previous_transactions.pop()
+        if previous.category == TransactionCategory.INCOME:
+            previous.category = TransactionCategory.EXPENSE
+        else:
+            previous.category = TransactionCategory.INCOME
+        self._balance.apply_transaction(previous)
