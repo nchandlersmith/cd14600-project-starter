@@ -79,7 +79,7 @@ class GetBalance(BalanceCommand):
         return self._balance.get_balance()
 
     def undo(self):
-        pass
+        raise NotImplementedError("Get balance cannot be undone.")
 
 
 class GetSummary(BalanceCommand):
@@ -91,4 +91,4 @@ class GetSummary(BalanceCommand):
         return self._balance.summary()
 
     def undo(self):
-        pass
+        raise NotImplementedError("Get summary cannot be undone.")
