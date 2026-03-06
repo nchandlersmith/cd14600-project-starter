@@ -68,6 +68,10 @@ class ApplyTransaction(BalanceCommand):
         else:
             previous.category = TransactionCategory.INCOME
         self._balance.apply_transaction(previous)
+        
+    def describe(self):
+        previous = self._previous_transactions[-1]
+        return f"Apply transaction: ${previous.amount} {previous.category.value.upper()}."
 
 
 class GetBalance(BalanceCommand):

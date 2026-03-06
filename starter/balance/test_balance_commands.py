@@ -69,7 +69,7 @@ class TestBalanceCommand(unittest.TestCase):
 
         self.assertEqual(self.balance._balance, 0)
 
-    def test_undo_add_expense_provides_description_of_last_transaction(self):
+    def test_add_expense_provides_description_of_last_transaction(self):
         add_expense = AddExpense(self.balance)
         add_expense.execute(1700)
 
@@ -100,6 +100,14 @@ class TestBalanceCommand(unittest.TestCase):
         apply.undo()
 
         self.assertEqual(self.balance._balance, 2000)
+        
+    def test_apply_transaction_provides_description_of_last_transaction(self):
+        apply = ApplyTransaction(self.balance)
+        apply.execute(Transaction(8200, TransactionCategory.INCOME))
+        
+        result = apply.describe()
+        
+        self.assertEqual(result, "Apply transaction: $8200 INCOME.")
 
     def test_get_balance_get_the_balance(self):
         get_balance = GetBalance(self.balance)
