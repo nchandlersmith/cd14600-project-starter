@@ -119,5 +119,4 @@ class TestBalanceCommand(unittest.TestCase):
         get_summary = GetSummary(self.balance)
         self.balance._balance = 189
         result = get_summary.execute()
-        self.assertTrue(isinstance(result, str))
-        self.assertTrue(str(result).find("189") > -1)
+        self.assertEqual(result, "Current balance: $189.")
