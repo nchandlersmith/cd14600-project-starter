@@ -23,12 +23,13 @@ class TestBalanceCommand(unittest.TestCase):
     def test_add_income_undo_command_removes_income(self):
         add_income = AddIncome(self.balance, 100)
         add_income.execute()
+        add_income = AddIncome(self.balance, 100) # not necessarily the case the the undo will action on the same object as execute
 
         add_income.undo()
 
         self.assertEqual(self.balance._balance, 0)
 
-    def test_undo_add_income_provides_description_of_last_transaction(self):
+    def test_add_income_provides_description_of_last_transaction(self):
         add_income = AddIncome(self.balance, 3801)
         add_income.execute()
 
@@ -37,31 +38,22 @@ class TestBalanceCommand(unittest.TestCase):
         self.assertEqual(result, "Add income: $3801.")
 
     def test_add_expense_command_adds_expense(self):
-        add_expense = AddExpense(self.balance)
-        add_expense.execute(100)
+        add_expense = AddExpense(self.balance, 100)
+        add_expense.execute()
         self.assertEqual(self.balance._balance, -100)
 
     def test_add_expense_undo_undoes(self):
-        add_expense = AddExpense(self.balance)
-        add_expense.execute(50)
+        add_expense = AddExpense(self.balance, 50)
+        add_expense.execute()
+        add_expense = AddExpense(self.balance, 50)
 
-        add_expense.undo()
-
-        self.assertEqual(self.balance._balance, 0)
-
-    def test_undo_add_expense_removes_last_expense_from_balance(self):
-        add_expense = AddExpense(self.balance)
-        add_expense.execute(125)
-        add_expense.execute(80)
-
-        add_expense.undo()
         add_expense.undo()
 
         self.assertEqual(self.balance._balance, 0)
 
     def test_add_expense_provides_description_of_last_transaction(self):
-        add_expense = AddExpense(self.balance)
-        add_expense.execute(1700)
+        add_expense = AddExpense(self.balance, 1700)
+        add_expense.execute()
 
         result = add_expense.describe_last_transaction()
 
