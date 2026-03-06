@@ -50,26 +50,24 @@ class AddExpense(BalanceCommand):
 
 
 class ApplyTransaction(BalanceCommand):
-    def __init__(self, balance):
+    def __init__(self, balance, transaction):
         super().__init__()
         self._balance = balance
-        self._previous_transactions = []
+        self._transaction = transaction
 
-    def execute(self, transaction: Transaction):
-        self._previous_transactions.append(transaction)
-        self._balance.apply_transaction(transaction)
+    def execute(self):
+        self._balance.apply_transaction(self._transaction)
 
     def undo(self):
-        previous = self._previous_transactions.pop()
-        if previous.category == TransactionCategory.INCOME:
-            previous.category = TransactionCategory.EXPENSE
+        undo_transaction = None
+        if self._transaction.category == TransactionCategory.INCOME:
+            undo_transaction = Transaction(self._transaction.amount, TransactionCategory.EXPENSE)
         else:
-            previous.category = TransactionCategory.INCOME
-        self._balance.apply_transaction(previous)
+            undo_transaction = Transaction(self._transaction.amount, TransactionCategory.INCOME)
+        self._balance.apply_transaction(undo_transaction)
         
     def describe(self):
-        previous = self._previous_transactions[-1]
-        return f"Apply transaction: ${previous.amount} {previous.category.value.upper()}."
+        return f"Apply transaction: ${self._transaction.amount} {self._transaction.category.value.upper()}."
 
 
 class GetBalance(BalanceCommand):
