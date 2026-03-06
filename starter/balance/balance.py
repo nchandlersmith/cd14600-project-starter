@@ -60,7 +60,7 @@ class Balance:
 
     def summary(self):
         """Return a summary string of the net balance."""
-        pass
+        return f"Current balance: ${self._balance}."
     
     def register_observer(self, observer: IBalanceObserver):
         self._notifier.register(observer)

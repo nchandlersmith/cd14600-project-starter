@@ -50,6 +50,13 @@ class TestBalance(unittest.TestCase):
         self.balance.add_expense(50)
         self.balance.reset()
         self.assertEqual(self.balance.get_balance(), 0.0)
+        
+    def test_balance_summary_returns_summary(self):
+        self.balance.apply_transaction(Transaction(70, TransactionCategory.INCOME))
+        
+        result = self.balance.summary()
+        
+        self.assertEqual(result, "Current balance: $70.")
 
 
 if __name__ == "__main__":
