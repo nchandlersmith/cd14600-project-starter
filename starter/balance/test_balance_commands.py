@@ -3,7 +3,7 @@ I could using mocking to test that the command calls the balance,
 but that is testing the implementation; I want to avoid that."""
 
 from balance.balance import Balance
-from balance.balance_commands import AddIncome, AddExpense, ApplyTransaction, GetBalance
+from balance.balance_commands import AddIncome, AddExpense, ApplyTransaction, GetBalance, GetSummary
 from transaction.transaction import Transaction, TransactionCategory
 
 import unittest
@@ -90,3 +90,10 @@ class TestBalanceCommand(unittest.TestCase):
         self.balance._balance = 67
         balance = get_balance.execute()
         self.assertEqual(balance, 67)
+        
+    def test_get_summary_returns_summary(self):
+        get_summary = GetSummary(self.balance)
+        self.balance._balance = 189
+        result = get_summary.execute()
+        self.assertTrue(isinstance(result, str))
+        self.assertTrue(str(result).find("189") > -1)

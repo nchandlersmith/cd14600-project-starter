@@ -72,4 +72,16 @@ class GetBalance(BalanceCommand):
         return self._balance.get_balance()
     
     def undo(self):
-        return super().undo()
+        pass
+    
+    
+class GetSummary(BalanceCommand):
+    def __init__(self, balance):
+        super().__init__()
+        self._balance = balance
+        
+    def execute(self):
+        return self._balance.summary()
+    
+    def undo(self):
+        pass
