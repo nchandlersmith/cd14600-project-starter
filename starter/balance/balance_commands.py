@@ -62,3 +62,14 @@ class ApplyTransaction(BalanceCommand):
         else:
             previous.category = TransactionCategory.INCOME
         self._balance.apply_transaction(previous)
+        
+class GetBalance(BalanceCommand):
+    def __init__(self, balance):
+        super().__init__()
+        self._balance = balance
+        
+    def execute(self):
+        return self._balance.get_balance()
+    
+    def undo(self):
+        return super().undo()
