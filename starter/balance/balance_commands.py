@@ -18,20 +18,19 @@ class BalanceCommand(ABC):
 
 
 class AddIncome(BalanceCommand):
-    def __init__(self, balance):
+    def __init__(self, balance, amount):
         super().__init__()
         self._balance = balance
-        self._previous_amount = [0]
+        self._amount = amount
 
-    def execute(self, amount):
-        self._previous_amount.append(amount)
-        self._balance.add_income(amount)
+    def execute(self):
+        self._balance.add_income(self._amount)
 
     def undo(self):
-        self._balance.add_expense(self._previous_amount.pop())
+        self._balance.add_expense(self._amount)
 
     def describe_last_transaction(self):
-        return f"Add income: ${self._previous_amount[-1]}."
+        return f"Add income: ${self._amount}."
 
 
 class AddExpense(BalanceCommand):

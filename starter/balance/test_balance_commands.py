@@ -16,31 +16,21 @@ class TestBalanceCommand(unittest.TestCase):
         self.balance.reset()
 
     def test_add_income_command_adds_income(self):
-        add_income = AddIncome(self.balance)
-        add_income.execute(800)
+        add_income = AddIncome(self.balance, 800)
+        add_income.execute()
         self.assertEqual(self.balance._balance, 800)
 
     def test_add_income_undo_command_removes_income(self):
-        add_income = AddIncome(self.balance)
-        add_income.execute(100)
+        add_income = AddIncome(self.balance, 100)
+        add_income.execute()
 
-        add_income.undo()
-
-        self.assertEqual(self.balance._balance, 0)
-
-    def test_undo_add_income_removes_last_income_from_balance(self):
-        add_income = AddIncome(self.balance)
-        add_income.execute(125)
-        add_income.execute(80)
-
-        add_income.undo()
         add_income.undo()
 
         self.assertEqual(self.balance._balance, 0)
 
     def test_undo_add_income_provides_description_of_last_transaction(self):
-        add_income = AddIncome(self.balance)
-        add_income.execute(3801)
+        add_income = AddIncome(self.balance, 3801)
+        add_income.execute()
 
         result = add_income.describe_last_transaction()
 
