@@ -26,6 +26,9 @@ class TestBalanceInvoker(unittest.TestCase):
 
         invoker.execute(command)
 
-        assert logger.log.call_count == 1
+        assert logger.log.call_count == 2
         print(logger.log.call_args_list)
-        assert logger.log.call_args_list == [call("Execute: Apply transaction: $135 EXPENSE.")]
+        assert logger.log.call_args_list == [
+            call("Execute: Apply transaction: $135 EXPENSE."),
+            call("Complete: Apply transaction: $135 EXPENSE.")
+            ]

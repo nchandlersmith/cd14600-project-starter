@@ -8,6 +8,7 @@ class BalanceInvoker():
     def execute(self, command: BalanceCommand):
         self._conditional_log(f"Execute: {command.describe()}")
         command.execute()
+        self._conditional_log(f"Complete: {command.describe()}")
 
     def _conditional_log(self, message):
         print(message)
