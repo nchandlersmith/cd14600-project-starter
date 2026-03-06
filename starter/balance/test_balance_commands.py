@@ -51,7 +51,7 @@ class TestBalanceCommand(unittest.TestCase):
 
         self.assertEqual(self.balance._balance, 0)
 
-    def test_undo_add_income_removes_last_income_from_balance(self):
+    def test_undo_add_expense_removes_last_expense_from_balance(self):
         add_expense = AddExpense(self.balance)
         add_expense.execute(125)
         add_expense.execute(80)
@@ -84,7 +84,7 @@ class TestBalanceCommand(unittest.TestCase):
         apply.undo()
 
         self.assertEqual(self.balance._balance, 2000)
-        
+
     def test_get_balance_get_the_balance(self):
         get_balance = GetBalance(self.balance)
         self.balance._balance = 67
