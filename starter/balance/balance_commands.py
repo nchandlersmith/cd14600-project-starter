@@ -47,6 +47,9 @@ class AddExpense(BalanceCommand):
     def undo(self):
         self._balance.add_income(self._previous_amount.pop())
 
+    def describe_last_transaction(self):
+        return f"Add expense: ${self._previous_amount[-1]}."
+
 
 class ApplyTransaction(BalanceCommand):
     def __init__(self, balance):
