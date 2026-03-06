@@ -29,7 +29,9 @@ class AddIncome(BalanceCommand):
 
     def undo(self):
         self._balance.add_expense(self._previous_amount.pop())
-
+        
+    def describe(self):
+        return f"Add income: ${self._previous_amount[-1]}."
 
 class AddExpense(BalanceCommand):
     def __init__(self, balance):

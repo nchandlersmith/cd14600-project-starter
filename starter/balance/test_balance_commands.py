@@ -37,6 +37,14 @@ class TestBalanceCommand(unittest.TestCase):
         add_income.undo()
 
         self.assertEqual(self.balance._balance, 0)
+        
+    def test_undo_add_income_provides_description_of_transaction(self):
+        add_income = AddIncome(self.balance)
+        add_income.execute(3801)
+        
+        result = add_income.describe()
+        
+        self.assertEqual(result, "Add income: $3801.")
 
     def test_add_expense_command_adds_expense(self):
         add_expense = AddExpense(self.balance)
