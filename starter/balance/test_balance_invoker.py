@@ -51,7 +51,7 @@ class TestBalanceInvoker(unittest.TestCase):
         invoker.undo()
         
         self.assertEqual(command.undo.call_count, 1)
-        command.undo.assert_called_with(command)
+        command.undo.assert_called_with()
 
     def test_execute_logs_undo(self):
         logger = Mock()
