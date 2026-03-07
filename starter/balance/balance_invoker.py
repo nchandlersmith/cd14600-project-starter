@@ -16,6 +16,7 @@ class BalanceInvoker():
         if len(self._history) > 0:
             command = self._history.pop()
             self._conditional_log(f"Undo: {command.describe()}")
+            command.undo(command)
             self._conditional_log(f"Undo Complete: {command.describe()}")
 
     def _conditional_log(self, message):

@@ -43,7 +43,15 @@ class TestBalanceInvoker(unittest.TestCase):
         command.assert_not_called()
         logger.assert_not_called()
         
-    def test
+    def test_undo_undoes_previous_operation(self):
+        command = Mock()
+        invoker = BalanceInvoker()
+        invoker.execute(command)
+        
+        invoker.undo()
+        
+        self.assertEqual(command.undo.call_count, 1)
+        command.undo.assert_called_with(command)
 
     def test_execute_logs_undo(self):
         logger = Mock()
