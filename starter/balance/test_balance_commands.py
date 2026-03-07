@@ -34,7 +34,7 @@ class TestBalanceCommand(unittest.TestCase):
         add_income = AddIncome(self.balance, 3801)
         add_income.execute()
 
-        result = add_income.describe_last_transaction()
+        result = add_income.describe()
 
         self.assertEqual(result, "Add income: $3801.")
 
@@ -57,7 +57,7 @@ class TestBalanceCommand(unittest.TestCase):
         add_expense = AddExpense(self.balance, 1700)
         add_expense.execute()
 
-        result = add_expense.describe_last_transaction()
+        result = add_expense.describe()
 
         self.assertEqual(result, "Add expense: $1700.")
 

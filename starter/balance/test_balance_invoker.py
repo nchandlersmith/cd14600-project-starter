@@ -1,5 +1,5 @@
 from balance.balance_invoker import BalanceInvoker
-from balance.balance_commands import ApplyTransaction
+from balance.balance_commands import ApplyTransaction, AddIncome
 from transaction.transaction_category import TransactionCategory
 from transaction.transaction import Transaction
 from balance.balance import Balance
@@ -31,4 +31,40 @@ class TestBalanceInvoker(unittest.TestCase):
         assert logger.log.call_args_list == [
             call("Execute: Apply transaction: $135 EXPENSE."),
             call("Complete: Apply transaction: $135 EXPENSE.")
-            ]
+        ]
+
+    def test_undo_does_an_undo(self):
+        command = Mock()
+        logger = Mock()
+        invoker = BalanceInvoker(logger)
+
+        invoker.undo()
+
+        command.assert_not_called()
+        logger.assert_not_called()
+        
+        
+    
+
+    def test_execute_logs_undo(self):
+        logger = Mock()
+        invoker = BalanceInvoker(logger)
+        transaction = ApplyTransaction(Balance(), Transaction(
+            135, TransactionCategory.EXPENSE))
+        income = AddIncome(Balance(), 100)
+        invoker.execute(transaction)
+        invoker.execute(income)
+
+        invoker.undo()
+
+        assert logger.log.call_count == 6
+        print("test")
+        print(logger.log.call_args_list)
+        assert logger.log.call_args_list == [
+            call("Execute: Apply transaction: $135 EXPENSE."),
+            call("Complete: Apply transaction: $135 EXPENSE."),
+            call("Execute: Add income: $100."),
+            call("Complete: Add income: $100."),
+            call("Undo: Add income: $100."),
+            call("Undo Complete: Add income: $100.")
+        ]
