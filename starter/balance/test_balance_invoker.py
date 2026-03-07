@@ -33,7 +33,7 @@ class TestBalanceInvoker(unittest.TestCase):
             call("Complete: Apply transaction: $135 EXPENSE.")
         ]
 
-    def test_undo_does_an_undo(self):
+    def test_undo_is_safe_no_previous_operation(self):
         command = Mock()
         logger = Mock()
         invoker = BalanceInvoker(logger)
@@ -43,8 +43,7 @@ class TestBalanceInvoker(unittest.TestCase):
         command.assert_not_called()
         logger.assert_not_called()
         
-        
-    
+    def test
 
     def test_execute_logs_undo(self):
         logger = Mock()
